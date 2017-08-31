@@ -24,6 +24,8 @@ module Register
                                bearer_token: access_token)
   end
 
+  private
+
   def config
     if File.exist? DEFAULT_CONFIG_FILE_NAME
       JSON.parse(File.read(DEFAULT_CONFIG_FILE_NAME))
@@ -46,8 +48,6 @@ module Register
     end
   end
 
-  private
-
   def save_config(config)
     File.write(DEFAULT_CONFIG_FILE_NAME, JSON.dump(config))
   end
@@ -65,6 +65,6 @@ module Register
   end
 
   def user_password
-    STDIN.noecho { Readline.readline('PASSWORD: ').tap { puts } }
+    STDIN.noecho { Readline.readline('PASSWORD: ') }
   end
 end
