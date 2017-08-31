@@ -33,10 +33,9 @@ module Register
     end
   end
 
+  private
+
   def save_config(config)
     File.write(DEFAULT_CONFIG_FILE_NAME, JSON.dump(config))
   end
 end
-
-include Register
-p init_app
