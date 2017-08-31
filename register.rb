@@ -33,9 +33,30 @@ module Register
     end
   end
 
+  def access_token
+    if File.exist? TOKEN_FILE_NAME
+      load_access_token
+    else
+      base_url = 'https://' + config["host"]
+      scopes = config["scopes"]
+      client = Mastodon::REST::Client.new base_url: base_url
+      app = client.create_app(APP_NAME, "urn:ietf:wg:oauth:2.0:oob", scopes)
+      client = OAuth2::Client.new(app.client_id, app.client_secret, site: base_url)
+      client.password.get_token(user_email, user_password, scope: scopes).token.tap { |t| save_access_token t }
+    end
+  end
+
   private
 
   def save_config(config)
     File.write(DEFAULT_CONFIG_FILE_NAME, JSON.dump(config))
+  end
+
+  def load_access_token
+    File.read(TOKEN_FILE_NAME).chomp
+  end
+
+  def save_access_token(token)
+    File.write(TOKEN_FILE_NAME, token)
   end
 end
