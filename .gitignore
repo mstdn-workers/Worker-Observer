@@ -1,4 +1,5 @@
 /.access_token
+/.rubocop.yml
 
 # Created by https://www.gitignore.io/api/vim,ruby,rails,linux,emacs
 
