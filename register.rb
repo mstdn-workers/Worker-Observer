@@ -39,7 +39,7 @@ module Register
     else
       base_url = 'https://' + config["host"]
       scopes = config["scopes"]
-      client = Mastodon::REST::Client.new base_url: base_url
+      client = Mastodon::REST::Client.new(base_url: base_url)
       app = client.create_app(APP_NAME, "urn:ietf:wg:oauth:2.0:oob", scopes)
       client = OAuth2::Client.new(app.client_id, app.client_secret, site: base_url)
       client.password.get_token(user_email, user_password, scope: scopes).token.tap { |t| save_access_token t }
@@ -58,5 +58,13 @@ module Register
 
   def save_access_token(token)
     File.write(TOKEN_FILE_NAME, token)
+  end
+
+  def user_email
+    Readline.readline('USER_EMAIL: ')
+  end
+
+  def user_password
+    STDIN.noecho { Readline.readline('PASSWORD: ').tap { puts } }
   end
 end
