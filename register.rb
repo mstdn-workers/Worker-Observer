@@ -10,14 +10,6 @@ require "oauth2"
 require 'json'
 
 module Register
-  APP_NAME = "Name Change Detecter"
-  DEFAULT_CONFIG = {
-    "host" => "mstdn-workers.com",
-    "scopes" => "read write",
-  }
-  TOKEN_FILE_NAME = '.access_token'
-  DEFAULT_CONFIG_FILE_NAME = 'config.json'
-
   def init_app
     base_url = 'https://' + config["host"]
     Mastodon::REST::Client.new(base_url: base_url,
@@ -25,6 +17,14 @@ module Register
   end
 
   private
+
+  APP_NAME = "Name Change Detecter"
+  DEFAULT_CONFIG = {
+    "host" => "mstdn-workers.com",
+    "scopes" => "read write",
+  }
+  TOKEN_FILE_NAME = '.access_token'
+  DEFAULT_CONFIG_FILE_NAME = 'config.json'
 
   def config
     if File.exist? DEFAULT_CONFIG_FILE_NAME
