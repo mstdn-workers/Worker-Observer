@@ -13,6 +13,8 @@ class SimpleMastodon
     @client.public_timeline(since_id: @since_id, local: true).each do |status|
       ret_val << status_to_string(status)
     end
+
+    # 時系列順にするためreverseを行う
     ret_val.reverse
   end
 
@@ -21,13 +23,16 @@ class SimpleMastodon
   def status_to_string(status)
     account = status.account
     content = status.content
+
+    # idの更新
+    @since_id = status.content.id
+
     display_name = account.display
     display_name ||= account.acct
     [display_name, "@" + account.acct, content_convert(content)]
   end
 
   def content_convert(content)
-    require 'cgi'
     content.gsub!("<br \/>", "\n")
     remove_tag(content)
   end
