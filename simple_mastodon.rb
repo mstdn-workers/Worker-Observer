@@ -20,7 +20,11 @@ class SimpleMastodon
   end
 
   def notifications
-    perform_request(:get, '/api/v1/notifications', since_id: @notification_since)
+    perform_request(:get, '/api/v1/notifications', since_id: @notification_since).reverse
+  end
+
+  def toot(content, visibility = nil, to = nil)
+    @client.create_status(content, visibility, to)
   end
 
   private
@@ -51,6 +55,4 @@ class SimpleMastodon
   end
 end
 
-require 'pp'
-
-pp SimpleMastodon.new.notifications[0]
+SimpleMastodon.new.toot("テスト", "direct")
