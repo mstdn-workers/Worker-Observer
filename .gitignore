@@ -1,5 +1,6 @@
 /.access_token
 /.rubocop.yml
+/.name_change_detection.db
 
 # Created by https://www.gitignore.io/api/vim,ruby,rails,linux,emacs
 
