@@ -1,7 +1,9 @@
 require './register'
+require './notifications'
 
 class SimpleMastodon
   include Register
+  include Notifications
 
   def initialize
     @client = init_app
