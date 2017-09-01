@@ -1,4 +1,5 @@
 require './register'
+require './client'
 
 class SimpleMastodon
   include Register
