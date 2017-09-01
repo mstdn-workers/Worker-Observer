@@ -1,18 +1,17 @@
 require './register'
-require './notifications'
 
 class SimpleMastodon
   include Register
-  include Notifications
 
   def initialize
     @client = init_app
-    @since_id = 0
+    @ltl_since = 0
+    @notification_since = 0
   end
 
   def local_time_line
     ret_val = []
-    @client.public_timeline(since_id: @since_id, local: true).each do |status|
+    @client.public_timeline(since_id: @ltl_since, local: true).each do |status|
       ret_val << status_to_string(status)
     end
 
@@ -20,14 +19,22 @@ class SimpleMastodon
     ret_val.reverse
   end
 
+  def notifications
+    perform_request(:get, '/api/v1/notifications', since_id: @notification_since)
+  end
+
   private
+
+  def perform_request(request_method, path, options = {})
+    Mastodon::REST::Request.new(@client, request_method, path, options).perform
+  end
 
   def status_to_string(status)
     account = status.account
     content = status.content
 
     # idの更新
-    @since_id = status.content.id if @since_id < status.content.id
+    @ltl_since = status.content.id if @ltl_since < status.content.id
 
     display_name = account.display
     display_name ||= account.acct
@@ -43,3 +50,7 @@ class SimpleMastodon
     str.gsub(/<([^>]+)>/, "")
   end
 end
+
+require 'pp'
+
+pp SimpleMastodon.new.notifications[0]
