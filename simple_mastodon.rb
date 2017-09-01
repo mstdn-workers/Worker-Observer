@@ -27,7 +27,7 @@ class SimpleMastodon
     content = status.content
 
     # idの更新
-    @since_id = status.content.id
+    @since_id = status.content.id if @since_id < status.content.id
 
     display_name = account.display
     display_name ||= account.acct
