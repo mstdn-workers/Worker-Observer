@@ -62,5 +62,3 @@ class SimpleMastodon
     str.gsub(/<([^>]+)>/, "")
   end
 end
-
-SimpleMastodon.new.toot("テスト", "direct")
