@@ -1,6 +1,7 @@
 require './register'
 require './client'
 
+# Mastodonの最低限的な機能を実装しているクラス
 class SimpleMastodon
   include Register
 
@@ -10,6 +11,7 @@ class SimpleMastodon
     @notification_since = 0
   end
 
+  # LTLを取得する。取得するデータは名前とusername, content
   def local_time_line
     ret_val = []
     @client.public_timeline(since_id: @ltl_since, local: true).each do |status|
@@ -20,20 +22,24 @@ class SimpleMastodon
     ret_val.reverse
   end
 
+  # 通知を取得する
   def notifications
     perform_request(:get, '/api/v1/notifications', since_id: @notification_since).reverse
   end
 
+  # tootする。visibilityはvisibility, toはin_reply_to_idを表している
   def toot(content, visibility = nil, to = nil)
     @client.create_status(content, visibility, to)
   end
 
   private
 
+  # clientがselfになっていたため@clientに変更したperform_requestにした
   def perform_request(request_method, path, options = {})
     Mastodon::REST::Request.new(@client, request_method, path, options).perform
   end
 
+  # statusからdisplay_name, username, contentを取得するメソッド
   def status_to_string(status)
     account = status.account
     content = status.content
@@ -46,6 +52,7 @@ class SimpleMastodon
     [display_name, "@" + account.acct, content_convert(content)]
   end
 
+  # HTMLタグを削除したり、改行コードを改行に変化させるメソッド
   def content_convert(content)
     content.gsub!("<br \/>", "\n")
     remove_tag(content)

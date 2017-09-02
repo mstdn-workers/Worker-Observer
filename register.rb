@@ -9,6 +9,8 @@ require 'readline'
 require "oauth2"
 require 'json'
 
+# クライアントを登録するためのmodule
+# include Registerをするとinit_appが使えるようになる
 module Register
   def init_app
     base_url = 'https://' + config["host"]
