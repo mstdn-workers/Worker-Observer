@@ -15,7 +15,7 @@ class SimpleMastodon
   def local_time_line
     ret_val = []
     @client.public_timeline(since_id: @ltl_since, local: true).each do |status|
-      ret_val << status_to_string(status)
+      ret_val << extract_from_status(status)
     end
 
     # 時系列順にするためreverseを行う
@@ -40,16 +40,16 @@ class SimpleMastodon
   end
 
   # statusからdisplay_name, username, contentを取得するメソッド
-  def status_to_string(status)
+  def extract_from_status(status)
     account = status.account
     content = status.content
 
     # idの更新
     @ltl_since = status.content.id if @ltl_since < status.content.id
 
-    display_name = account.display
-    display_name ||= account.acct
-    [display_name, "@" + account.acct, content_convert(content)]
+    display = account.display
+    display ||= account.acct
+    { display: display, username: account.acct, content: content_convert(content) }
   end
 
   # HTMLタグを削除したり、改行コードを改行に変化させるメソッド
