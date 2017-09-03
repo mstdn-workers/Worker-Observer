@@ -45,9 +45,10 @@ class SimpleMastodon
     content = status.content
 
     # idの更新
-    @ltl_since = status.id if @ltl_since < status.content.id
+    @ltl_since = status.id if @ltl_since < status.id
 
-    display = account.display
+    # display_nameを取得する方法がattributesから直接引っ張ってくるしかなかった
+    display = account.attributes["display_name"]
     display ||= account.acct
     { id: account.id, display: display, username: account.acct, content: content_convert(content) }
   end
