@@ -10,14 +10,18 @@ module NameChangeDetection
     # threadを追加するメソッド
     def register_thread
       ncd_thread = Thread.new do
-        sleep(5.0)
-        name_change_detection
+        loop do
+          sleep(5.0)
+          name_change_detection
+        end
       end
       ncd_thread.join
 
       rm_thread = Thread.new do
-        sleep(2.0)
-        reaction_mention
+        loop do
+          sleep(2.0)
+          reaction_mention
+        end
       end
       rm_thread.join
     end
