@@ -30,6 +30,13 @@ module NameChangeDetection
         end
       end
       rm_thread.join
+
+      debug_thread = Thread.new do
+        loop do
+          debug
+        end
+      end
+      debug_thread.new
     end
 
     # 名前変更検知を行うメソッド
@@ -42,6 +49,10 @@ module NameChangeDetection
 
     # mentionに合わせてtootをリプライするメソッド
     def reaction_mention
+
+    end
+
+    def debug
 
     end
   end
