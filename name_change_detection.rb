@@ -5,6 +5,7 @@ module NameChangeDetection
   class Main
     def initialize
       @manager = SimpleMastodon.new
+      @database = NameChangeDetection::Database.new
     end
 
     # threadを追加するメソッド
@@ -28,7 +29,10 @@ module NameChangeDetection
 
     # 名前変更検知を行うメソッド
     def name_change_detection
-
+      @manager.local_time_line.each do |status|
+        @database.register_account(status[:id], status[:username])
+        @database.register_name(status[:id], status[:display])
+      end
     end
 
     # mentionに合わせてtootをリプライするメソッド
