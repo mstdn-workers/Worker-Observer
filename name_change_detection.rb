@@ -1,4 +1,5 @@
 require './database'
+require './simple_mastodon'
 
 module NameChangeDetection
   # 今回のメイン機能を実装したクラス
@@ -6,6 +7,10 @@ module NameChangeDetection
     def initialize
       @manager = SimpleMastodon.new
       @database = NameChangeDetection::Database.new
+    end
+
+    def start
+      register_thread
     end
 
     # threadを追加するメソッド
@@ -41,3 +46,5 @@ module NameChangeDetection
     end
   end
 end
+
+NameChangeDetection::Main.new.start

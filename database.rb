@@ -47,7 +47,6 @@ module NameChangeDetection
         n.changed_date = time
         n.is_first = exist?(account_id) ? 0 : 1
       end
-      p Names.all
     end
 
     def names(id = nil)
