@@ -49,7 +49,7 @@ class SimpleMastodon
 
     display = account.display
     display ||= account.acct
-    { display: display, username: account.acct, content: content_convert(content) }
+    { id: account.id, display: display, username: account.acct, content: content_convert(content) }
   end
 
   # HTMLタグを削除したり、改行コードを改行に変化させるメソッド
