@@ -8,9 +8,11 @@
 $ git clone https://github.com/mstdn-workers/NameChangeDetection
 $ cd NameChangeDetection
 $ bundle install --path vendor/bundle
+$ sqlite3 name_change_detection.db << create_table.sqlite
 You write perfect and beautiful Code.
 $ git push origin develop(, feature, or your-branch)
 ```
 
 ##### ちなみに
-まだ名前変更検知っぽいことはしてません。
+~~まだ名前変更検知っぽいことはしてません。~~  
+DBにLTLの情報を読み取って名前などを流す機構ができました。
