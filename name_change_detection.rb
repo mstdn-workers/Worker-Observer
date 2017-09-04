@@ -23,10 +23,10 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      #@detection_thread = create_thread(:name_change_detection, 5)
+      @detection_thread = create_thread(:name_change_detection, 5)
       @reaction_thread = create_thread(:reaction_mention, 2)
       @debug_thread = create_thread(:debug, 0)
-      #@detection_thread.join
+      @detection_thread.join
       @reaction_thread.join
       @debug_thread.join
     end
@@ -76,8 +76,10 @@ module NameChangeDetection
     def debug
       puts "debug"
       # debug用のメソッドは"d_"というprefixをつけるため
-      command = ("d_" + gets.chomp).to_sym
-      respond_to?(command, true) ? send(command) : d_help
+      command = gets.chomp
+      arg = command.split[1]
+      command = ("d_" + command.split[0]).to_sym
+      respond_to?(command, true) ? send(command, arg) : d_help
     end
 
     # debug用コマンド
@@ -105,10 +107,10 @@ module NameChangeDetection
       stop
     end
 
-    def d_accounts
+    def d_accounts(arg)
       puts "id\tusername\tnickname"
       i = 0
-      @database.accounts.each do |account|
+      @database.accounts(username: arg).each do |account|
         puts "#{account.id}\t#{account.username}\t#{account.nickname}"
         i += 1
         break if i >= 10
@@ -116,10 +118,11 @@ module NameChangeDetection
       puts
     end
 
-    def d_names
+    def d_names(arg)
       puts "id\tdisplay_name\tchanged_date"
       i = 0
-      @database.names.each do |name|
+      arg = arg.to_i if arg
+      @database.names(arg).each do |name|
         puts "#{name.account_id}\t#{name.display_name}\t#{name.changed_date}"
         i += 1
         break if i >= 10
