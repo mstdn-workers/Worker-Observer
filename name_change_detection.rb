@@ -23,8 +23,8 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      @detection_thread = create_thread(:name_change_detection, 5)
-      @detection_thread.join
+      #@detection_thread = create_thread(:name_change_detection, 5)
+      #@detection_thread.join
       @reaction_thread = create_thread(:reaction_mention, 2)
       @reaction_thread.join
       @debug_thread = create_thread(:debug, 0)
@@ -58,7 +58,9 @@ module NameChangeDetection
         reply_account = notifications["status"]["account"]["username"]
         content = notifications["status"]["content"]
 
-        puts "id: #{notifications["id"]}, toot_id:#{toot_id}, reply_account:#{reply_account}, content:#{content}"
+        if content.include?("test")
+          @manager.toot("@#{reply_account} test", "direct", toot_id)
+        end
       end
     end
 
