@@ -8,7 +8,7 @@ class SimpleMastodon
   def initialize
     @client = init_app
     @ltl_since = 0
-    @notification_since = 0
+    @notifications_since = 0
   end
 
   # LTLを取得する。取得するデータは名前とusername, content
@@ -24,7 +24,10 @@ class SimpleMastodon
 
   # 通知を取得する
   def notifications
-    perform_request(:get, '/api/v1/notifications', since_id: @notification_since).reverse
+    ret_val = perform_request(:get, '/api/v1/notifications', since_id: @notifications_since).reverse
+    return [] if ret_val.empty?
+    @notifications_since = ret_val[-1]["id"]
+    ret_val
   end
 
   # tootする。visibilityはvisibility, toはin_reply_to_idを表している
