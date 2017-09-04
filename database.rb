@@ -42,11 +42,21 @@ module NameChangeDetection
     end
 
     def register_name(account_id, display)
-      Names.find_or_create_by(account_id: account_id, display_name: display) do |n|
+      # 最新と同じ名前の場合何もしない
+      newest = names(account_id).find_by(account_id: account_id)
+      return if newest && display == newest.display_name
+      puts "new_name: #{display}"
+
+      name = Names.new do |n|
         time = Time.now.strftime("%Y/%m/%d %H:%M:%S")
+        n.account_id = account_id
+        n.display_name = display
         n.changed_date = time
         n.is_first = exist?(account_id) ? 0 : 1
       end
+      name.save
+
+      puts "complete register"
     end
 
     def names(id = nil)
