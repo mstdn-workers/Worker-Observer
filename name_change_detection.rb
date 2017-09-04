@@ -44,7 +44,9 @@ module NameChangeDetection
     def name_change_detection
       @manager.local_time_line.each do |status|
         @database.register_account(status[:id], status[:username])
-        @database.register_name(status[:id], status[:display])
+        display = status[:display]
+        display ||= status[:acct]
+        @database.register_name(status[:id], display)
       end
     end
 
