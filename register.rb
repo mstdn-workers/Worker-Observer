@@ -4,7 +4,6 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'mastodon'
-require 'readline'
 
 require "oauth2"
 require 'json'
@@ -46,7 +45,7 @@ module Register
       client = Mastodon::REST::Client.new(base_url: base_url)
       app = client.create_app(APP_NAME, "urn:ietf:wg:oauth:2.0:oob", scopes)
       client = OAuth2::Client.new(app.client_id, app.client_secret, site: base_url)
-      client.password.get_token(user_email, user_password, scope: scopes).token.tap { |t| save_access_token t }
+      client.password.get_token(user_email, user_password, scope: scopes).token.tap { |t| save_access_token t }.tap{ puts }
     end
   end
 
@@ -63,10 +62,12 @@ module Register
   end
 
   def user_email
-    Readline.readline('USER_EMAIL: ')
+    print "USER_EMAIL: "
+    gets.chomp
   end
 
   def user_password
-    STDIN.noecho { Readline.readline('PASSWORD: ') }
+    print "PASSWORD: "
+    STDIN.noecho { gets.chomp }
   end
 end
