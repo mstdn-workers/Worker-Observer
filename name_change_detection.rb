@@ -24,10 +24,10 @@ module NameChangeDetection
     # threadを追加するメソッド
     def register_thread
       #@detection_thread = create_thread(:name_change_detection, 5)
-      #@detection_thread.join
-      #@reaction_thread = create_thread(:reaction_mention, 2)
-      #@reaction_thread.join
+      @reaction_thread = create_thread(:reaction_mention, 2)
       @debug_thread = create_thread(:debug, 0)
+      #@detection_thread.join
+      @reaction_thread.join
       @debug_thread.join
     end
 
@@ -56,15 +56,25 @@ module NameChangeDetection
 
         toot_id = notifications["status"]["id"]
         reply_account = notifications["status"]["account"]["username"]
-        content = notifications["status"]["content"]
+        content = @manager.content_convert(notifications["status"]["content"])
 
-        if content.include?("test")
-          @manager.toot("@#{reply_account} test", "direct", toot_id)
-        end
+        select_method(content)
+      end
+    end
+
+    def select_method(content)
+      case content
+      when /nickname/
+        :set_nickname
+      when /help/
+        :puts_help
+      else
+        :react_normal
       end
     end
 
     def debug
+      puts "debug"
       # debug用のメソッドは"d_"というprefixをつけるため
       command = ("d_" + gets.chomp).to_sym
       respond_to?(command, true) ? send(command) : d_help
