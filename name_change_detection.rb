@@ -79,6 +79,7 @@ module NameChangeDetection
     def set_nickname(toot_id, replay_account, account_id, content)
       nickname = content.match(/nickname\s*(\S*)/)[1]
       @database.set_nickname(account_id, nickname)
+      puts "#{replay_account}さんがニックネームを#{nickname}に設定しました"
       @manager.toot("@#{replay_account} ニックネームを#{nickname}に設定しました。", "direct", toot_id)
     end
 
@@ -86,7 +87,7 @@ module NameChangeDetection
       help = <<~EOF
         @#{replay_account}
         ヘルプ一覧
-        nickname 任意の名前: 入力された任意の名前を自分のニックネームとして凍露します。
+        nickname 任意の名前: 入力された任意の名前を自分のニックネームとして登録します。
         help : ヘルプ一覧を表示します。
       EOF
       @manager.toot(help, "direct", toot_id)
