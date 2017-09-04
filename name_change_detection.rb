@@ -80,8 +80,14 @@ module NameChangeDetection
       @manager.toot("@#{replay_account} ニックネームを#{nickname}に設定しました。", "direct", toot_id)
     end
 
-    def puts_help(toot_id, replay_account, account_id, content)
-
+    def puts_help(toot_id, replay_account, _, _)
+      help = <<~EOF
+        @#{replay_account}
+        ヘルプ一覧
+        nickname 任意の名前: 入力された任意の名前を自分のニックネームとして凍露します。
+        help : ヘルプ一覧を表示します。
+      EOF
+      @manager.toot(help, "direct", toot_id)
     end
 
     def react_normal(toot_id, replay_account, account_id, content)
@@ -99,7 +105,7 @@ module NameChangeDetection
 
     # debug用コマンド
 
-    def d_help(arg)
+    def d_help(_)
       puts "デバッグ時のコマンド一覧"
 
       # (privateな)methodのうちd_から始まるデバッグ用のメソッドをd_を消して表示する
@@ -109,12 +115,12 @@ module NameChangeDetection
       puts
     end
 
-    def d_start(arg)
+    def d_start(_)
       stop
       start
     end
 
-    def d_stop(arg)
+    def d_stop(_)
       stop_without_debug
     end
 
