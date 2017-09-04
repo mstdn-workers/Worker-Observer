@@ -49,6 +49,8 @@ module NameChangeDetection
       end
     end
 
+    private
+
     def names(id = nil)
       if id
         Names.find_by(account_id: id)
