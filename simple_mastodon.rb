@@ -5,10 +5,18 @@ require './client'
 class SimpleMastodon
   include Register
 
+  NOTIFICATIONS_SINCE_FILE = ".notifications_since"
+  LTL_SINCE_FILE = ".ltl_since"
+
   def initialize
     @client = init_app
-    @ltl_since = 0
-    @notifications_since = 0
+    begin
+      @notifications_since = File.read(NOTIFICATIONS_SINCE_FILE).to_i
+      @ltl_since = File.read(LTL_SINCE_FILE).to_i
+    rescue
+      @notifications_since ||= 0
+      @ltl_since ||= 0
+    end
   end
 
   # LTLを取得する。取得するデータは名前とusername, content
@@ -17,6 +25,7 @@ class SimpleMastodon
     @client.public_timeline(since_id: @ltl_since, local: true).each do |status|
       ret_val << extract_from_status(status)
     end
+    File.write(LTL_SINCE_FILE, @ltl_since.to_s)
 
     # 時系列順にするためreverseを行う
     ret_val.reverse
@@ -27,6 +36,7 @@ class SimpleMastodon
     ret_val = perform_request(:get, '/api/v1/notifications', since_id: @notifications_since).reverse
     return [] if ret_val.empty?
     @notifications_since = ret_val[-1]["id"]
+    File.write(NOTIFICATIONS_SINCE_FILE, @notifications_since.to_s)
     ret_val
   end
 
