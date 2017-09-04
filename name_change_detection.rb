@@ -14,8 +14,8 @@ module NameChangeDetection
     end
 
     def stop
-      #@detection_thread.kill
-      #@reaction_thread.kill
+      @detection_thread.kill
+      @reaction_thread.kill
       @debug_thread.kill
     end
 
@@ -23,10 +23,10 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      #@detection_thread = create_thread(:name_change_detection, 5)
-      #@detection_thread.join
-      #@reaction_thread = create_thread(:reaction_mention, 2)
-      #@reaction_thread.join
+      @detection_thread = create_thread(:name_change_detection, 5)
+      @detection_thread.join
+      @reaction_thread = create_thread(:reaction_mention, 2)
+      @reaction_thread.join
       @debug_thread = create_thread(:debug, 0)
       @debug_thread.join
     end
@@ -50,7 +50,16 @@ module NameChangeDetection
 
     # mentionに合わせてtootをリプライするメソッド
     def reaction_mention
+      @manager.notifications.each do |notifications|
+        # リプライ以外を弾く
+        next unless notifications["type"] == "mention"
 
+        toot_id = notifications["status"]["id"]
+        reply_account = notifications["status"]["account"]["username"]
+        content = notifications["status"]["content"]
+
+        puts "id: #{notifications["id"]}, toot_id:#{toot_id}, reply_account:#{reply_account}, content:#{content}"
+      end
     end
 
     def debug
@@ -83,8 +92,8 @@ module NameChangeDetection
     end
 
     def stop_without_debug
-      #@detection_thread.kill
-      #@reaction_thread.kill
+      @detection_thread.kill
+      @reaction_thread.kill
     end
   end
 end
