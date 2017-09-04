@@ -45,6 +45,12 @@ class SimpleMastodon
     @client.create_status(content, visibility, to)
   end
 
+  # HTMLタグを削除したり、改行コードを改行に変化させるメソッド
+  def content_convert(content)
+    content.gsub!("<br \/>", "\n")
+    remove_tag(content)
+  end
+
   private
 
   # clientがselfになっていたため@clientに変更したperform_requestにした
@@ -64,12 +70,6 @@ class SimpleMastodon
     display = account.attributes["display_name"]
     display ||= account.acct
     { id: account.id, display: display, username: account.acct, content: content_convert(content) }
-  end
-
-  # HTMLタグを削除したり、改行コードを改行に変化させるメソッド
-  def content_convert(content)
-    content.gsub!("<br \/>", "\n")
-    remove_tag(content)
   end
 
   def remove_tag(str)
