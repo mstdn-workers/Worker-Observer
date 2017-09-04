@@ -15,28 +15,21 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      @detection_thread = Thread.new do
-        loop do
-          sleep(5.0)
-          name_change_detection
-        end
-      end
+      @detection_thread = create_thread(:name_change_detection, 5)
       @detection_thread.join
-
-      @reaction_thread = Thread.new do
-        loop do
-          sleep(2.0)
-          reaction_mention
-        end
-      end
+      @reaction_thread = create_thread(:reaction_mention, 2)
       @reaction_thread.join
+      @debug_thread = create_thread(:debug, 0)
+      @debug_thread.join
+    end
 
-      @debug_thread = Thread.new do
+    def create_thread(method, sleep_time)
+      Thread.new do
         loop do
-          debug
+          sleep(sleep_time) unless sleep_time.zero?
+          send method
         end
       end
-      @debug_thread.new
     end
 
     def stop
@@ -59,7 +52,6 @@ module NameChangeDetection
     end
 
     def debug
-
     end
   end
 end
