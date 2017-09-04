@@ -33,9 +33,9 @@ module NameChangeDetection
       if element.nil?
         Accounts.order("id DESC")
       elsif element[:id]
-        Accounts.find_by(id: element[:id])
+        Accounts.where(id: element[:id])
       elsif element[:username]
-        Accounts.find_by(username: element[:username])
+        Accounts.where(username: element[:username])
       else
         Accounts.all
       end
