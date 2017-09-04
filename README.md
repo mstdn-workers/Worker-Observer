@@ -8,7 +8,7 @@
 $ git clone https://github.com/mstdn-workers/NameChangeDetection
 $ cd NameChangeDetection
 $ bundle install --path vendor/bundle
-$ sqlite3 name_change_detection.db << create_table.sqlite
+$ sqlite3 name_change_detection.db < create_table.sqlite
 You write perfect and beautiful Code.
 $ git push origin develop(, feature, or your-branch)
 ```
