@@ -13,6 +13,14 @@ module NameChangeDetection
       register_thread
     end
 
+    def stop
+      #@detection_thread.kill
+      #@reaction_thread.kill
+      @debug_thread.kill
+    end
+
+    private
+
     # threadを追加するメソッド
     def register_thread
       #@detection_thread = create_thread(:name_change_detection, 5)
@@ -30,12 +38,6 @@ module NameChangeDetection
           send method
         end
       end
-    end
-
-    def stop
-      #@detection_thread.kill
-      #@reaction_thread.kill
-      @debug_thread.kill
     end
 
     # 名前変更検知を行うメソッド
