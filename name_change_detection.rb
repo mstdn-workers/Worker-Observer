@@ -55,10 +55,11 @@ module NameChangeDetection
         next unless notifications["type"] == "mention"
 
         toot_id = notifications["status"]["id"]
-        reply_account = notifications["status"]["account"]["username"]
+        replay_account_id = notifications["status"]["account"]["id"]
+        replay_account = notifications["status"]["account"]["username"]
         content = @manager.content_convert(notifications["status"]["content"])
 
-        select_method(content)
+        send(select_method(content), toot_id, replay_account, replay_account_id, content)
       end
     end
 
@@ -73,18 +74,32 @@ module NameChangeDetection
       end
     end
 
+    def set_nickname(toot_id, replay_account, account_id, content)
+      nickname = content.match(/nickname\s*(\S*)/)[1]
+      @database.set_nickname(account_id, nickname)
+      @manager.toot("@#{replay_account} ニックネームを#{nickname}に設定しました。", "direct", toot_id)
+    end
+
+    def puts_help(toot_id, replay_account, account_id, content)
+
+    end
+
+    def react_normal(toot_id, replay_account, account_id, content)
+
+    end
+
     def debug
       puts "debug"
       # debug用のメソッドは"d_"というprefixをつけるため
       command = gets.chomp
       arg = command.split[1]
       command = ("d_" + command.split[0]).to_sym
-      respond_to?(command, true) ? send(command, arg) : d_help
+      respond_to?(command, true) ? send(command, arg) : d_help(nil)
     end
 
     # debug用コマンド
 
-    def d_help
+    def d_help(arg)
       puts "デバッグ時のコマンド一覧"
 
       # (privateな)methodのうちd_から始まるデバッグ用のメソッドをd_を消して表示する
@@ -94,12 +109,12 @@ module NameChangeDetection
       puts
     end
 
-    def d_start
+    def d_start(arg)
       stop
       start
     end
 
-    def d_stop
+    def d_stop(arg)
       stop_without_debug
     end
 
