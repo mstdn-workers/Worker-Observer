@@ -45,7 +45,7 @@ module Register
       client = Mastodon::REST::Client.new(base_url: base_url)
       app = client.create_app(APP_NAME, "urn:ietf:wg:oauth:2.0:oob", scopes)
       client = OAuth2::Client.new(app.client_id, app.client_secret, site: base_url)
-      client.password.get_token(user_email, user_password, scope: scopes).token.tap { |t| save_access_token t }.tap{ puts }
+      client.password.get_token(user_email, user_password, scope: scopes).token.tap { |t| save_access_token t }.tap { puts }
     end
   end
 

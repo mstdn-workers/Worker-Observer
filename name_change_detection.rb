@@ -93,7 +93,6 @@ module NameChangeDetection
     end
 
     def react_normal(toot_id, replay_account, account_id, content)
-
     end
 
     def debug
