@@ -17,8 +17,8 @@ end
 
 # データベース接続クラス
 module NameChangeDetection
-  include Singleton
   class Database
+    include Singleton
     # Accountテーブルに新たな要素を作るメソッド。作成時にはnicknameが登録されることはない
     def register_account(id, username)
       Accounts.find_or_create_by(id: id) { |a| a.username = username }
