@@ -6,7 +6,7 @@ module NameChangeDetection
   class Main
     def initialize
       @manager = SimpleMastodon.new
-      @database = NameChangeDetection::Database.new
+      @database = NameChangeDetection::Database.instance
     end
 
     def start

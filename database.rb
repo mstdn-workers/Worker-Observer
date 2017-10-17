@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'active_record'
 require 'sqlite3'
+require 'singleton'
 
 # データベースへの接続
 ActiveRecord::Base.establish_connection(
@@ -16,6 +17,8 @@ end
 
 # データベース接続クラス
 module NameChangeDetection
+  include Singleton
+  
   class Database
     # Accountテーブルに新たな要素を作るメソッド。作成時にはnicknameが登録されることはない
     def register_account(id, username)
