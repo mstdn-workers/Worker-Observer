@@ -84,12 +84,11 @@ module NameChangeDetection
     end
 
     def puts_help(toot_id, replay_account, _, _)
-      help = <<~EOF
-        @#{replay_account}
-        ヘルプ一覧
-        nickname 任意の名前: 入力された任意の名前を自分のニックネームとして登録します。
-        help : ヘルプ一覧を表示します。
-      EOF
+      help = "@#{replay_account}\n
+        ヘルプ一覧\n
+        nickname 任意の名前: 入力された任意の名前を自分のニックネームとして登録します。\n
+        help : ヘルプ一覧を表示します。"
+
       @manager.toot(help, "direct", toot_id)
     end
 
