@@ -1,6 +1,7 @@
 require 'sinatra'
+require 'slim'
 require './database.rb'
 
 get '/' do
-  "Hello, World"
+  slim :index
 end
