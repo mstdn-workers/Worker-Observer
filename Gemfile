@@ -6,5 +6,7 @@ gem 'oauth2'
 gem 'activerecord'
 gem 'sqlite3'
 gem 'sinatra'
+gem 'thin'
+gem 'rack'
 
 # gem "rails"
