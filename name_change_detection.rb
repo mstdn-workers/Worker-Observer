@@ -159,5 +159,3 @@ module NameChangeDetection
     end
   end
 end
-
-NameChangeDetection::Main.new.start

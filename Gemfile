@@ -5,5 +5,6 @@ gem 'mastodon-api'
 gem 'oauth2'
 gem 'activerecord'
 gem 'sqlite3'
+gem 'sinatra'
 
 # gem "rails"
