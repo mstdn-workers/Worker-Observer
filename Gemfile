@@ -8,5 +8,7 @@ gem 'sqlite3'
 gem 'sinatra'
 gem 'thin'
 gem 'rack'
+gem "sass"
+gem "slim"
 
 # gem "rails"
