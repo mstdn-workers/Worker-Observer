@@ -1,10 +1,10 @@
 require 'sinatra'
 require 'slim'
 
-require './database._b'
+require './database.rb'
 # apiのルーティングを追加
 require './api.rb'
 
-get '/' do
+get "/" do
   slim :index
 end
