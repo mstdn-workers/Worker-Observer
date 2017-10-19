@@ -11,5 +11,6 @@ gem 'rack'
 gem 'sass'
 gem 'slim'
 gem 'mysql2'
+gem 'rake'
 
 # gem "rails"
