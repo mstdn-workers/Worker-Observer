@@ -1,4 +1,4 @@
-class CreateNames < ActiveRecord::Migration
+class CreateNames < ActiveRecord::Migration[4.2]
   def self.up
     create_table :names do |t|
       t.references :accounts, index: true, foreign_key: true
