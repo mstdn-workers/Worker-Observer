@@ -2,9 +2,11 @@ require 'rubygems'
 require 'active_record'
 require 'sqlite3'
 require 'singleton'
+require "yaml"
+require "erb"
 
 # データベースへの接続
-config = YAML.load_file( './config/database.yml' )
+config = YAML.safe_load(ERB.new(File.read("./config/database.yml")).result)
 ActiveRecord::Base.establish_connection(config["db"]["development"])
 
 class Accounts < ActiveRecord::Base
@@ -41,18 +43,17 @@ module NameChangeDetection
       end
     end
 
-    def register_name(account_id, display)
+  def register_name(accounts_id, display)
       # 最新と同じ名前の場合何もしない
-      newest = names(account_id).find_by(account_id: account_id)
+      newest = names(accounts_id).find_by(accounts_id: accounts_id)
       return if newest && display == newest.display_name
       puts "new_name: #{display}"
 
       name = Names.new do |n|
         time = Time.now.strftime("%Y/%m/%d %H:%M:%S")
-        n.account_id = account_id
+        n.accounts_id = accounts_id
         n.display_name = display
-        n.changed_date = time
-        n.is_first = exist?(account_id) ? 0 : 1
+        n.is_first = exist?(accounts_id) ? 0 : 1
       end
       name.save
 
@@ -61,7 +62,7 @@ module NameChangeDetection
 
     def names(id = nil)
       if id
-        Names.order("id DESC").where(account_id: id)
+        Names.order("id DESC").where(accounts_id: id)
       else
         Names.order("id DESC").all
       end
@@ -70,7 +71,7 @@ module NameChangeDetection
     private
 
     def exist?(id)
-      !Names.find_by(account_id: id).nil?
+      !Names.find_by(accounts_id: id).nil?
     end
   end
 end
