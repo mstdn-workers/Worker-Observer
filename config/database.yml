@@ -1,16 +1,20 @@
 db:
   production:
-    adapter:  mysql2
-    socket: /tmp/mysql.sock
+    adapter:  postgresql
     host:     localhost
+    encoding: utf8
     username: <%= ENV['DATABASE_USERNAME'] %>
     password: <%= ENV['DATABASE_PASSWORD'] %>
     database: <%= ENV['DATABASE_NAME']%>
+    pool: 5
+    timeout: 5000
 
   development:
-    adapter:  mysql2
-    socket: /tmp/mysql.sock
+    adapter:  postgresql
     host:     localhost
+    encoding: utf8
     username: <%= ENV['DEV_DATABASE_USERNAME'] %>
     password: <%= ENV['DEV_DATABASE_PASSWORD'] %>
     database: <%= ENV['DEV_DATABASE_NAME']%>
+    pool: 5
+    timeout: 5000

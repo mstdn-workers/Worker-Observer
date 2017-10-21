@@ -10,7 +10,7 @@ gem 'thin'
 gem 'rack'
 gem 'sass'
 gem 'slim'
-gem 'mysql2'
+gem 'pg'
 gem 'rake'
 
 # gem "rails"
