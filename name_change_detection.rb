@@ -57,11 +57,11 @@ module NameChangeDetection
         next unless notifications["type"] == "mention"
 
         toot_id = notifications["status"]["id"]
-        replay_account_id = notifications["status"]["account"]["id"]
+        replay_accounts_id = notifications["status"]["account"]["id"]
         replay_account = notifications["status"]["account"]["username"]
         content = @manager.content_convert(notifications["status"]["content"])
 
-        send(select_method(content), toot_id, replay_account, replay_account_id, content)
+        send(select_method(content), toot_id, replay_account, replay_accounts_id, content)
       end
     end
 
@@ -76,9 +76,9 @@ module NameChangeDetection
       end
     end
 
-    def set_nickname(toot_id, replay_account, account_id, content)
+    def set_nickname(toot_id, replay_account, accounts_id, content)
       nickname = content.match(/nickname\s*(\S*)/)[1]
-      @database.set_nickname(account_id, nickname)
+      @database.set_nickname(accounts_id, nickname)
       puts "#{replay_account}さんがニックネームを#{nickname}に設定しました"
       @manager.toot("@#{replay_account} ニックネームを#{nickname}に設定しました。", "direct", toot_id)
     end
@@ -92,7 +92,7 @@ module NameChangeDetection
       @manager.toot(help, "direct", toot_id)
     end
 
-    def react_normal(toot_id, replay_account, account_id, content)
+    def react_normal(toot_id, replay_account, accounts_id, content)
     end
 
     def debug
@@ -145,7 +145,7 @@ module NameChangeDetection
       i = 0
       arg = arg.to_i if arg
       @database.names(arg).each do |name|
-        puts "#{name.account_id}\t#{name.display_name}\t#{name.changed_date}"
+        puts "#{name.accounts_id}\t#{name.display_name}\t#{name.created_at}"
         i += 1
         break if i >= 10
       end
@@ -158,3 +158,5 @@ module NameChangeDetection
     end
   end
 end
+
+NameChangeDetection::Main.new.start
