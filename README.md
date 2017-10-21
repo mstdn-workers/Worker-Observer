@@ -8,8 +8,18 @@
 $ git clone https://github.com/mstdn-workers/NameChangeDetection
 $ cd NameChangeDetection
 $ bundle install --path vendor/bundle
-$ sqlite3 name_change_detection.db < create_table.sqlite
-You write perfect and beautiful Code.
+$ psql -U postgres
+# You create new database(and create user if you need)
+
+$ emacs(or your editor) ~/.zshrc (or your shell's run command file)
+# Write it.
+# export DEV_DATABASE_NAME="<Your postgreSQL username>"
+# export DEV_DATABASE_PASSWORD="<Your postgreSQL password>"
+# export DEV_DATABASE_NAME="Your postgreSQL database name>"
+
+$ bundle exec rake ENV=development
+# You write perfect and beautiful Code.
+
 $ git push origin develop(, feature, or your-branch)
 ```
 
@@ -22,5 +32,6 @@ DBにLTLの情報を読み取って名前などを流す機構ができました
 - [x] PostgreSQLの使用
 - [ ] MastodonのOauth機能を使ったログイン機能
 - [ ] BootStrapの使用
-- [ ] Vueを使ったAjaxの使用
+- [ ] Vueの使用
+- [ ] Ajaxを使用して、強そうなやつを作りたい(願望)
 - [ ] 他、監視機能の追加
