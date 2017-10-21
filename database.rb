@@ -4,10 +4,8 @@ require 'sqlite3'
 require 'singleton'
 
 # データベースへの接続
-ActiveRecord::Base.establish_connection(
-  adapter:   'sqlite3',
-  database:  'name_change_detection.db'
-)
+config = YAML.load_file( './config/database.yml' )
+ActiveRecord::Base.establish_connection(config["db"]["development"])
 
 class Accounts < ActiveRecord::Base
 end
