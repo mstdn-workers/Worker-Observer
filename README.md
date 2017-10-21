@@ -16,3 +16,11 @@ $ git push origin develop(, feature, or your-branch)
 ##### ちなみに
 ~~まだ名前変更検知っぽいことはしてません。~~  
 DBにLTLの情報を読み取って名前などを流す機構ができました。
+
+### やりたいこと
+- [x] databaseのmigrationをrakeで自動化(mysqlでは完了)
+- [ ] PostgreSQLの使用
+- [ ] MastodonのOauth機能を使ったログイン機能
+- [ ] BootStrapの使用
+- [ ] Vueを使ったAjaxの使用
+- [ ] 他、監視機能の追加
