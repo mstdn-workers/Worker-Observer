@@ -43,14 +43,13 @@ module NameChangeDetection
       end
     end
 
-  def register_name(accounts_id, display)
+    def register_name(accounts_id, display)
       # 最新と同じ名前の場合何もしない
       newest = names(accounts_id).find_by(accounts_id: accounts_id)
       return if newest && display == newest.display_name
       puts "new_name: #{display}"
 
       name = Names.new do |n|
-        time = Time.now.strftime("%Y/%m/%d %H:%M:%S")
         n.accounts_id = accounts_id
         n.display_name = display
         n.is_first = exist?(accounts_id) ? 0 : 1

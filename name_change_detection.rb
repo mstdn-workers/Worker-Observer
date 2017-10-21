@@ -93,6 +93,8 @@ module NameChangeDetection
     end
 
     def react_normal(toot_id, replay_account, accounts_id, content)
+      puts "実装されてないよ"
+      puts "引数:#{toot_id}, #{replay_account}, #{accounts_id}, #{content}"
     end
 
     def debug
