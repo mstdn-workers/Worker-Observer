@@ -11,7 +11,7 @@ $ bundle install --path vendor/bundle
 $ psql -U postgres
 # You create new database(and create user if you need)
 
-$ emacs(or your editor) ~/.zshrc (or your shell's run command file)
+$ emacs(or your editor) ~/.zshrc (or your shell run command file)
 # Write it.
 # export DEV_DATABASE_NAME="<Your postgreSQL username>"
 # export DEV_DATABASE_PASSWORD="<Your postgreSQL password>"
