@@ -18,8 +18,8 @@ $ git push origin develop(, feature, or your-branch)
 DBにLTLの情報を読み取って名前などを流す機構ができました。
 
 ### やりたいこと
-- [x] databaseのmigrationをrakeで自動化(mysqlでは完了)
-- [ ] PostgreSQLの使用
+- [x] databaseのmigrationをrakeで自動化
+- [x] PostgreSQLの使用
 - [ ] MastodonのOauth機能を使ったログイン機能
 - [ ] BootStrapの使用
 - [ ] Vueを使ったAjaxの使用
