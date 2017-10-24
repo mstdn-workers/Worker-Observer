@@ -11,11 +11,7 @@ $ bundle install --path vendor/bundle
 $ psql -U postgres
 # You create new database(and create user if you need)
 
-<<<<<<< HEAD
-$ emacs(or your editor) ~/.zshrc (or your shell run command file)
-=======
 $ emacs(or your editor) config/secret.yml
->>>>>>> front
 # Write it.
 # username: <Your PostgreSQL username>
 # password: <Your PostgreSQL password>
