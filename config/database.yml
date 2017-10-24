@@ -13,8 +13,8 @@ db:
     adapter:  postgresql
     host:     localhost
     encoding: utf8
-    username: <%= ENV['DEV_DATABASE_USERNAME'] %>
-    password: <%= ENV['DEV_DATABASE_PASSWORD'] %>
-    database: <%= ENV['DEV_DATABASE_NAME']%>
+    username: <%= YAML.load_file("config/secret.yml")["username"] %>
+    password: <%= YAML.load_file("config/secret.yml")["password"] %>
+    database: <%= YAML.load_file("config/secret.yml")["database"] %>
     pool: 5
     timeout: 5000
