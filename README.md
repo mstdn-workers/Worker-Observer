@@ -1,6 +1,11 @@
 # <ruby>Worker-Observer<rp>（</rp><rt>社畜監視マシン</rt><rp>）</rp></ruby>
+<<<<<<< HEAD
 その名の通り、[(労働者のための)マストドン](https://mstdn-workers.com/about)でのあまりにも多い名前変更とそれを周知する術のなさが生み出した現代における監視プログラム。
 [(こいつ)https://github.com/mstdn-workers/NameChangeDetection]の強化版の予定。
+=======
+その名の通り、[(労働者のための)マストドン](https://mstdn-workers.com/about)での監視を目的とした(適当)プログラム。
+[こいつ](https://github.com/mstdn-workers/NameChangeDetection)の強化版の予定。
+>>>>>>> master
 
 ### Contribute
 労働者のためのマスト丼hubユーザーの方は自由に書き換えてください。
