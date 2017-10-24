@@ -3,6 +3,7 @@
 /.notifications_since
 /.ltl_since
 /name_change_detection.db
+/config/secret.yml
 
 # Created by https://www.gitignore.io/api/vim,ruby,rails,linux,emacs
 
