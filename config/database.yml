@@ -9,12 +9,15 @@ db:
     pool: 5
     timeout: 5000
 
+  <% begin %>
   development:
     adapter:  postgresql
     host:     localhost
     encoding: utf8
-    username: <%= YAML.load_file("config/secret.yml")["username"] %>
+    username: <%= begiYAML.load_file("config/secret.yml")["username"] %>
     password: <%= YAML.load_file("config/secret.yml")["password"] %>
     database: <%= YAML.load_file("config/secret.yml")["database"] %>
     pool: 5
     timeout: 5000
+  <% rescue %>
+  <% end %>

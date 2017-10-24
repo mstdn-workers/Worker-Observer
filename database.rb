@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'active_record'
-require 'sqlite3'
 require 'singleton'
 require "yaml"
 require "erb"
