@@ -11,11 +11,11 @@ $ bundle install --path vendor/bundle
 $ psql -U postgres
 # You create new database(and create user if you need)
 
-$ emacs(or your editor) ~/.zshrc (or your shell run command file)
+$ emacs(or your editor) config/secret.yml
 # Write it.
-# export DEV_DATABASE_NAME="<Your postgreSQL username>"
-# export DEV_DATABASE_PASSWORD="<Your postgreSQL password>"
-# export DEV_DATABASE_NAME="Your postgreSQL database name>"
+# username: <Your PostgreSQL username>
+# password: <Your PostgreSQL password>
+# database: <Your PostgreSQL database name>
 
 $ bundle exec rake ENV=development
 # You write perfect and beautiful Code.
