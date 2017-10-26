@@ -24,10 +24,8 @@ module NameChangeDetection
     # threadを追加するメソッド
     def register_thread
       @detection_thread = create_thread(:name_change_detection, 5)
-      @reaction_thread = create_thread(:reaction_mention, 2)
       @debug_thread = create_thread(:debug, 0)
       @detection_thread.join
-      @reaction_thread.join
       @debug_thread.join
     end
 
@@ -50,39 +48,6 @@ module NameChangeDetection
       end
     end
 
-    # mentionに合わせてtootをリプライするメソッド
-    def reaction_mention
-      @manager.notifications.each do |notifications|
-        # リプライ以外を弾く
-        next unless notifications["type"] == "mention"
-
-        toot_id = notifications["status"]["id"]
-        replay_accounts_id = notifications["status"]["account"]["id"]
-        replay_account = notifications["status"]["account"]["username"]
-        content = @manager.content_convert(notifications["status"]["content"])
-
-        send(select_method(content), toot_id, replay_account, replay_accounts_id, content)
-      end
-    end
-
-    def select_method(content)
-      case content
-      when /nickname/
-        :set_nickname
-      when /help/
-        :puts_help
-      else
-        :react_normal
-      end
-    end
-
-    def set_nickname(toot_id, replay_account, accounts_id, content)
-      nickname = content.match(/nickname\s*(\S*)/)[1]
-      @database.set_nickname(accounts_id, nickname)
-      puts "#{replay_account}さんがニックネームを#{nickname}に設定しました"
-      @manager.toot("@#{replay_account} ニックネームを#{nickname}に設定しました。", "direct", toot_id)
-    end
-
     def puts_help(toot_id, replay_account, _, _)
       help = "@#{replay_account}\n
         ヘルプ一覧\n
@@ -90,11 +55,6 @@ module NameChangeDetection
         help : ヘルプ一覧を表示します。"
 
       @manager.toot(help, "direct", toot_id)
-    end
-
-    def react_normal(toot_id, replay_account, accounts_id, content)
-      puts "実装されてないよ"
-      puts "引数:#{toot_id}, #{replay_account}, #{accounts_id}, #{content}"
     end
 
     def debug
