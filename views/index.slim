@@ -10,13 +10,13 @@ html
   body
     div#app class="container"
       h3 Names
-      div class="names" v-for="result in results"
+      div class="names" v-for="name in names"
         div class="name"
-          = "{{ result.username }}"
+          = "{{ name.id }}"
         div class="display"
-          = "{{ result.display }}"
+          = "{{ name.display_name }}"
         div class="changed"
-          = "{{ result.changed }}"
+          = "{{ name.created_at }}"
     script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js"
     script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"
     script src="/script/app.js"
