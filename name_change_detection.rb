@@ -25,12 +25,10 @@ module NameChangeDetection
     def register_thread
       @detection_thread = create_thread(:name_change_detection, 5)
       @debug_thread = create_thread(:debug, 0)
-      @detection_thread.join
-      @debug_thread.join
     end
 
     def create_thread(method, sleep_time)
-      Thread.new do
+      Thread.start do
         loop do
           sleep(sleep_time) unless sleep_time.zero?
           send method
