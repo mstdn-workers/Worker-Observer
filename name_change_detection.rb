@@ -15,7 +15,6 @@ module NameChangeDetection
 
     def stop
       @detection_thread.kill
-      @reaction_thread.kill
       @debug_thread.kill
     end
 
@@ -23,7 +22,7 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      @detection_thread = create_thread(:name_change_detection, 5)
+      @detection_thread = create_thread(:name_change_detection, 8)
       @debug_thread = create_thread(:debug, 0)
     end
 
