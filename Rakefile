@@ -15,5 +15,5 @@ task :environment do
 
   # `rake ENV=development`/`rake ENV=production`で切り替え可能
   ActiveRecord::Base.establish_connection(db_conf["db"][ENV["ENV"]])
-  ActiveRecord::Base.logger = Logger.new("log/database.log")
+  ActiveRecord::Base.logger = Logger.new("log/database.log") if ENV["ENV"] == "development"
 end

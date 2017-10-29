@@ -9,6 +9,7 @@ db:
     pool: 5
     timeout: 5000
 
+  <% begin %>
   development:
     adapter:  postgresql
     host:     localhost
@@ -18,3 +19,5 @@ db:
     database: <%= YAML.load_file("config/secret.yml")["database"] %>
     pool: 5
     timeout: 5000
+  <% rescue %>
+  <% end %>
