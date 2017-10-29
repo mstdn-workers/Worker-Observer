@@ -1,11 +1,6 @@
 db:
   production:
-    adapter:  postgresql
-    host:     localhost
-    encoding: utf8
-    username: <%= ENV['DATABASE_USERNAME'] %>
-    password: <%= ENV['DATABASE_PASSWORD'] %>
-    database: <%= ENV['DATABASE_NAME']%>
+    url: <%= ENV['DATABASE_URL'] %>
     pool: 5
     timeout: 5000
 
