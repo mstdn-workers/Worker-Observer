@@ -6,7 +6,7 @@ require "erb"
 
 # データベースへの接続
 config = YAML.safe_load(ERB.new(File.read("./config/database.yml")).result)
-ActiveRecord::Base.establish_connection(config["db"]["development"])
+ActiveRecord::Base.establish_connection(config["db"]["production"])
 
 class Accounts < ActiveRecord::Base
 end
