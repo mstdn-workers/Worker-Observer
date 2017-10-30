@@ -46,16 +46,16 @@ module NameChangeDetection
       end
     end
 
-    def register_name(accounts_id, display)
+    def register_name(account_id, display)
       # 最新と同じ名前の場合何もしない
-      newest = names(accounts_id).find_by(accounts_id: accounts_id)
+      newest = names(account_id)
       return if newest && display == newest.display_name
       puts "new_name: #{display}"
 
       name = Names.new do |n|
-        n.accounts_id = accounts_id
+        n.account_id = account_id
         n.display_name = display
-        n.is_first = exist?(accounts_id) ? 0 : 1
+        n.is_first = exist?(account_id) ? 0 : 1
       end
       name.save
 
@@ -64,7 +64,7 @@ module NameChangeDetection
 
     def names(id = nil)
       if id
-        Names.order("id DESC").where(accounts_id: id)
+        Names.order("id DESC").where(account_id: id)
       else
         Names.order("id DESC").all
       end
@@ -73,7 +73,7 @@ module NameChangeDetection
     private
 
     def exist?(id)
-      !Names.find_by(accounts_id: id).nil?
+      !Names.find_by(account_id: id).nil?
     end
   end
 end
