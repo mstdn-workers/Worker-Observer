@@ -50,16 +50,16 @@ module NameChangeDetection
 
     def register_name(account_id, display)
       # 最新と同じ名前の場合何もしない
-      newest = names(account_id).find_by(account_id: account_id)
+      newest = names(id: account_id).find_by(account_id: account_id)
       return if newest && display == newest.display_name
       puts "new_name: #{display}"
 
-      name = Name.new do |n|
+      account = Account.find(account_id)
+      account.names.create do |n|
         n.account_id = account_id
         n.display_name = display
         n.is_first = exist?(account_id) ? 0 : 1
       end
-      name.save
 
       puts "complete register"
     end
@@ -67,14 +67,15 @@ module NameChangeDetection
     # @param element[:id] = id
     # @param element[:username] = acct
     def names(element = nil)
+      all_names = Name.joins(:account).select("names.*, accounts.*").order("names.id DESC")
       if element.nil?
-        Name.joins(:account).order("id DESC").all
+        all_names.all
       elsif element[:id]
-        Name.joins(:account).order("id DESC").where(account_id: element[:id])
+        all_names.where(account_id: element[:id])
       elsif element[:username]
-        Name.joins(:account).order("id DESC").where(username: element[:username])
+        all_names.where(username: element[:username])
       else
-        Name.joins(:account).order("id DESC").all
+        all_names.all
       end
     end
 
