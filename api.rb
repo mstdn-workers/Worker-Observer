@@ -12,13 +12,7 @@ get "/api/accounts" do
 end
 
 get "/api/names" do
-  accounts = database.accounts(params)
-
-  id = nil
-  # 一人のusernameのみを指定していたら
-  id = accounts[0].id if accounts[0] && accounts[1].nil?
-
-  names = database.names(id)
+  names = database.names(params)
 
   names.to_json
 end

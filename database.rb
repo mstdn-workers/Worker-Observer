@@ -62,11 +62,17 @@ module NameChangeDetection
       puts "complete register"
     end
 
-    def names(id = nil)
-      if id
-        Names.order("id DESC").where(account_id: id)
+    # @param element[:id] = id
+    # @param element[:username] = acct
+    def names(element = nil)
+      if element.nil?
+        Names.joins(:accounts).order("id DESC").all
+      elsif element[:id]
+        Names.joins(:accounts).order("id DESC").where(account_id: element[:id])
+      elsif element[:username]
+        Names.joins(:accounts).order("id DESC").where(username: element[:username])
       else
-        Names.order("id DESC").all
+        Names.joins(:accounts).order("id DESC").all
       end
     end
 
