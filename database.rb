@@ -48,7 +48,7 @@ module NameChangeDetection
 
     def register_name(account_id, display)
       # 最新と同じ名前の場合何もしない
-      newest = names(account_id)
+      newest = names(account_id).find_by(account_id: account_id)
       return if newest && display == newest.display_name
       puts "new_name: #{display}"
 

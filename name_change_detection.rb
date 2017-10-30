@@ -39,7 +39,6 @@ module NameChangeDetection
     def name_change_detection
       puts "start detecting"
       @manager.local_time_line.each do |status|
-         puts status
         @database.register_account(status[:id], status[:username])
         display = status[:display]
         display ||= status[:acct]
