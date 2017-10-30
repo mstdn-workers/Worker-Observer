@@ -13,9 +13,11 @@ Time.zone_default = Time.find_zone! 'Tokyo'
 ActiveRecord::Base.default_timezone = :local
 
 class Accounts < ActiveRecord::Base
+  has_many :names
 end
 
 class Names < ActiveRecord::Base
+  belongs_to :account
 end
 
 # データベース接続クラス
