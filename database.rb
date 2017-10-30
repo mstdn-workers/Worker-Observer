@@ -68,13 +68,13 @@ module NameChangeDetection
     # @param element[:username] = acct
     def names(element = nil)
       if element.nil?
-        Names.joins(:accounts).order("id DESC").all
+        Names.joins(:account).order("id DESC").all
       elsif element[:id]
-        Names.joins(:accounts).order("id DESC").where(account_id: element[:id])
+        Names.joins(:account).order("id DESC").where(account_id: element[:id])
       elsif element[:username]
-        Names.joins(:accounts).order("id DESC").where(username: element[:username])
+        Names.joins(:account).order("id DESC").where(username: element[:username])
       else
-        Names.joins(:accounts).order("id DESC").all
+        Names.joins(:account).order("id DESC").all
       end
     end
 
