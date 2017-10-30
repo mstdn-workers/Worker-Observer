@@ -37,12 +37,15 @@ module NameChangeDetection
 
     # 名前変更検知を行うメソッド
     def name_change_detection
+      puts "start detecting"
       @manager.local_time_line.each do |status|
+         puts status
         @database.register_account(status[:id], status[:username])
         display = status[:display]
         display ||= status[:acct]
         @database.register_name(status[:id], display)
       end
+      puts "end"
     end
 
     def puts_help(toot_id, replay_account, _, _)

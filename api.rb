@@ -18,7 +18,7 @@ get "/api/names" do
   # 一人のusernameのみを指定していたら
   id = accounts[0].id if accounts[0] && accounts[1].nil?
 
-  puts names = database.names(id)
+  names = database.names(id)
 
   names.to_json
 end
