@@ -1,6 +1,7 @@
 # <ruby>Worker-Observer<rp>（</rp><rt>社畜監視マシンAPI</rt><rp>）</rp></ruby>
 その名の通り、[(労働者のための)マストドン](https://mstdn-workers.com/about)での監視を目的とした(適当)プログラム。APIを提供する(予定な)ので、実際にはブラウザなどで情報を表示するはず。
 [こいつ](https://github.com/mstdn-workers/NameChangeDetection)の強化版の予定。
+(Viewもこっちでやってればよかったと思ってる)
 
 ### Contribute
 労働者のためのマスト丼hubユーザーの方は自由に書き換えてください。
@@ -30,4 +31,3 @@ $ sudo bundle exec thin start -p 80 -R config.ru
 - [x] databaseのmigrationをrakeで自動化
 - [x] PostgreSQLの使用
 - [x] herokuでの正常稼働
-- [ ] session_idを入出力するapi
