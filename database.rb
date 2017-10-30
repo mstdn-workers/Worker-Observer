@@ -8,6 +8,9 @@ require "erb"
 config = YAML.safe_load(ERB.new(File.read("./config/database.yml")).result)
 ActiveRecord::Base.establish_connection(config["db"]["production"])
 
+Time.zone_default = Time.find_zone! 'Tokyo'
+ActiveRecord::Base.default_timezone = :local
+
 class Accounts < ActiveRecord::Base
 end
 
