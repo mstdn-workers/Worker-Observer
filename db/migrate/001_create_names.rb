@@ -1,7 +1,7 @@
 class CreateNames < ActiveRecord::Migration[4.2]
   def self.up
     create_table :names do |t|
-      t.references :accounts, index: true, foreign_key: true
+      t.belongs_to :account, index: true
       t.string :display_name
       t.integer :is_first
       t.timestamps
