@@ -67,7 +67,7 @@ module NameChangeDetection
     # @param element[:id] = id
     # @param element[:username] = acct
     def names(element = nil)
-      all_names = Name.joins(:account).select("names.*, accounts.*").order("names.id DESC")
+      all_names = Name.joins(:account).select("names.*, accounts.username, accounts.nickname").order("names.id DESC")
       if element.nil?
         all_names.all
       elsif element[:id]
