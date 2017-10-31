@@ -6,7 +6,7 @@ require "erb"
 
 # データベースへの接続
 config = YAML.safe_load(ERB.new(File.read("./config/database.yml")).result)
-ActiveRecord::Base.establish_connection(config["db"]["production"])
+ActiveRecord::Base.establish_connection(config["db"]["development"])
 
 Time.zone = 'Tokyo'
 Time.zone_default = Time.find_zone! 'Tokyo'
@@ -73,7 +73,8 @@ module NameChangeDetection
       elsif element[:id]
         all_names.all.where(account_id: element[:id])
       elsif element[:username]
-        all_names.all.where("accounts.username like ?", "%#{element[:username]}%").references(:account)
+        all_names.all.where("accounts.username like ?",
+                            "%" + sanitize_sql_like(element[:username]) + "%").references(:account)
       else
         all_names.all
       end
@@ -83,6 +84,11 @@ module NameChangeDetection
 
     def exist?(id)
       !Name.find_by(account_id: id).nil?
+    end
+
+    # sqlのLikeに関するサニタイズ(ActiveRecord::Sanitization::ClassMethodsにあるはずなんだけど...)
+    def sanitize_sql_like(string)
+      string.gsub("%", "\\%").gsub("_", "\\_")
     end
   end
 end
