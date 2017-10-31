@@ -71,9 +71,9 @@ module NameChangeDetection
       if element.nil?
         all_names.all
       elsif element[:id]
-        all_names.where(account_id: element[:id])
+        all_names.all.where(account_id: element[:id])
       elsif element[:username]
-        all_names.where(username: element[:username])
+        all_names.all.where("accounts.username like ?", "%#{element[:username]}%").references(:account)
       else
         all_names.all
       end
