@@ -93,6 +93,31 @@ module NameChangeDetection
           t.all_toot_num = account.statuses_count
         end
       end
+
+      # 31日前のやつを削除する
+      last_count = toot_counts.all.where(account_id: status[:id]).last
+      created_at = Date.parse(last_count.created_at.to_s) unless last_count.nil?
+
+      last_count.delete if Date.today - created_at >= 31
+    end
+
+    # @param element[:username] = acct
+    def toot_counts(element)
+      username = element[:username]
+      all_toot_counts = TootCount.joins(:account).select("toot_counts.*, accounts.username").order("created_at DESC").where("accounts.username = ?", username).all.references(:account)
+      formated_data = []
+
+      all_toot_counts.each do |count|
+        created_at = Date.parse(count.created_at.to_s)
+        days_ago = Date.today - created_at
+        x = "#{days_ago} days ago"
+        y = count.toot_num_per_day
+        formated_data << { x: x, y: y } unless days_ago.zero?
+      end
+
+      format_data(formated_data)
+
+      formated_data
     end
 
     # @param element[:id] = id
@@ -111,15 +136,31 @@ module NameChangeDetection
       end
     end
 
-      private
+    private
 
-      def exist?(id)
-        !Name.find_by(account_id: id).nil?
+    def exist?(id)
+      !Name.find_by(account_id: id).nil?
+    end
+    
+    # sqlのLikeに関するサニタイズ(ActiveRecord::Sanitization::ClassMethodsにあるはずなんだけど...)
+    def sanitize_sql_like(string)
+      string.gsub("%", "\\%").gsub("_", "\\_")
+    end
+
+    def format_data(data)
+      empty_days_ago = []
+      1.upto 30 do |i|
+        empty_days_ago << i
       end
 
-      # sqlのLikeに関するサニタイズ(ActiveRecord::Sanitization::ClassMethodsにあるはずなんだけど...)
-      def sanitize_sql_like(string)
-        string.gsub("%", "\\%").gsub("_", "\\_")
+      data.each do |d|
+        # 12 days agoをto_iすると12が得られる
+        empty_days_ago.delete(d[:x].to_i)
+      end
+
+      empty_days_ago.each do |i|
+        data << { x: "#{i} days ago", y: 0 }
       end
     end
   end
+end

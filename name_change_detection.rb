@@ -22,8 +22,8 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      @detection_thread = create_thread(:name_change_detection, 8).join
-      @debug_thread = create_thread(:debug, 0).join
+      @detection_thread = create_thread(:name_change_detection, 8)
+      @debug_thread = create_thread(:debug, 0)
     end
 
     def create_thread(method, sleep_time)
