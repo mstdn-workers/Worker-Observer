@@ -16,3 +16,9 @@ get "/api/names" do
 
   names.to_json
 end
+
+get "/api/toot_counts" do
+  toot_counts = database.toot_counts(params)
+
+  toot_counts.to_json
+end

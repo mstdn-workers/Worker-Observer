@@ -41,7 +41,7 @@ class SimpleMastodon
     remove_tag(content)
   end
 
-  # statusからdisplay_name, username, contentを取得するメソッド
+  # statusからdisplay_name, username, contentなどを取得するメソッド
   def extract_from_status(status)
     account = status["account"]
     content = status["content"]
@@ -52,7 +52,13 @@ class SimpleMastodon
     # display_nameを取得する方法がattributesから直接引っ張ってくるしかなかった
     display = account["display_name"]
     display ||= account["acct"]
-    { id: account["id"], display: display, username: account["acct"], content: content_convert(content) }
+    {
+      id: account["id"],
+      display: display,
+      username: account["acct"],
+      content: content_convert(content),
+      statuses_count: account["statuses_count"]
+    }
   end
 
   def remove_tag(str)
