@@ -41,8 +41,9 @@ module NameChangeDetection
       @manager.local_time_line.each do |status|
         @database.register_account(status[:id], status[:username])
         display = status[:display]
-        display ||= status[:acct]
+        display = status[:acct] if display == ""
         @database.register_name(status[:id], display)
+        @database.count_toot(status)
       end
       puts "end"
     end
