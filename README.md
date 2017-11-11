@@ -31,3 +31,4 @@ $ sudo bundle exec thin start -p 80 -R config.ru
 - [x] databaseのmigrationをrakeで自動化
 - [x] PostgreSQLの使用
 - [x] herokuでの正常稼働
+### 

@@ -3,6 +3,7 @@ require 'active_record'
 require 'singleton'
 require "yaml"
 require "erb"
+require 'date'
 
 # データベースへの接続
 config = YAML.safe_load(ERB.new(File.read("./config/database.yml")).result)
@@ -14,9 +15,14 @@ ActiveRecord::Base.default_timezone = :local
 
 class Account < ActiveRecord::Base
   has_many :names
+  has_many :toot_counts
 end
 
 class Name < ActiveRecord::Base
+  belongs_to :account
+end
+
+class TootCount < ActiveRecord::Base
   belongs_to :account
 end
 
@@ -64,6 +70,31 @@ module NameChangeDetection
       puts "complete register"
     end
 
+    def count_toot(status)
+      return unless exist?(status[:id])
+      toot_counts = TootCount.joins(:account).select("toot_counts.*, accounts.username").order("toot_counts.created_at DESC")
+      toot_count = toot_counts.all.where(account_id: status[:id]).first
+
+      created_at = Date.parse(toot_count.created_at.to_s) unless toot_count.nil?
+
+      # toot_countがnilだった場合は単純に最初の登録
+      if toot_count.nil?
+        Account.find(status[:id]).toot_counts.create do |t|
+          t.account_id = status[:id]
+          t.toot_num_per_day = 0
+          t.all_toot_num = status["statuses_count"]
+        end
+        # toot_countの日付が昨日以前でなければ
+      elsif !(Date.today - created_at).zero?
+        Account.find(status[:id]).tood_count.create do |t|
+          t.account_id = status[:id]
+          # tootしたタイミングだから-1を行う
+          t.toot_num_per_day = status[:statuses_count] - toot_count.all_toot_num - 1
+          t.all_toot_num = account.statuses_count
+        end
+      end
+    end
+
     # @param element[:id] = id
     # @param element[:username] = acct
     def names(element = nil)
@@ -74,21 +105,21 @@ module NameChangeDetection
         all_names.all.where(account_id: element[:id])
       elsif element[:username]
         all_names.all.where("accounts.username like ?",
-                            "%" + sanitize_sql_like(element[:username]) + "%").references(:account)
+        "%" + sanitize_sql_like(element[:username]) + "%").references(:account)
       else
         all_names.all
       end
     end
 
-    private
+      private
 
-    def exist?(id)
-      !Name.find_by(account_id: id).nil?
-    end
+      def exist?(id)
+        !Name.find_by(account_id: id).nil?
+      end
 
-    # sqlのLikeに関するサニタイズ(ActiveRecord::Sanitization::ClassMethodsにあるはずなんだけど...)
-    def sanitize_sql_like(string)
-      string.gsub("%", "\\%").gsub("_", "\\_")
+      # sqlのLikeに関するサニタイズ(ActiveRecord::Sanitization::ClassMethodsにあるはずなんだけど...)
+      def sanitize_sql_like(string)
+        string.gsub("%", "\\%").gsub("_", "\\_")
+      end
     end
   end
-end

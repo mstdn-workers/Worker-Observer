@@ -22,8 +22,8 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      @detection_thread = create_thread(:name_change_detection, 8)
-      @debug_thread = create_thread(:debug, 0)
+      @detection_thread = create_thread(:name_change_detection, 8).join
+      @debug_thread = create_thread(:debug, 0).join
     end
 
     def create_thread(method, sleep_time)
@@ -41,8 +41,9 @@ module NameChangeDetection
       @manager.local_time_line.each do |status|
         @database.register_account(status[:id], status[:username])
         display = status[:display]
-        display ||= status[:acct]
+        display = status[:acct] if display == ""
         @database.register_name(status[:id], display)
+        @database.count_toot(status)
       end
       puts "end"
     end
