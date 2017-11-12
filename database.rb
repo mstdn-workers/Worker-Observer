@@ -78,15 +78,15 @@ module NameChangeDetection
       created_at = Date.parse(toot_count.created_at.to_s) unless toot_count.nil?
 
       # toot_countがnilだった場合は単純に最初の登録
-      if toot_count.nil?
+      if toot_count.nil? || toot_count.all_toot_num.nil?
         Account.find(status[:id]).toot_counts.create do |t|
           t.account_id = status[:id]
           t.toot_num_per_day = 0
-          t.all_toot_num = status["statuses_count"]
+          t.all_toot_num = status[:statuses_count]
         end
-        # toot_countの日付が昨日以前でなければ
+        # toot_countの日付が昨日以前であれば
       elsif !(Date.today - created_at).zero?
-        Account.find(status[:id]).tood_count.create do |t|
+        Account.find(status[:id]).toot_counts.create do |t|
           t.account_id = status[:id]
           # tootしたタイミングだから-1を行う
           t.toot_num_per_day = status[:statuses_count] - toot_count.all_toot_num - 1
@@ -110,7 +110,7 @@ module NameChangeDetection
       all_toot_counts.each do |count|
         created_at = Date.parse(count.created_at.to_s)
         days_ago = Date.today - created_at
-        x = "#{days_ago} days ago"
+        x = "#{days_ago.to_i} days ago"
         y = count.toot_num_per_day
         formated_data << { x: x, y: y } unless days_ago.zero?
       end
