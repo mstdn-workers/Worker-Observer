@@ -98,7 +98,7 @@ module NameChangeDetection
       last_count = toot_counts.all.where(account_id: status[:id]).last
       created_at = Date.parse(last_count.created_at.to_s) unless last_count.nil?
 
-      last_count.delete if Date.today - created_at >= 31
+      last_count.delete if Date.today - created_at >= 30
     end
 
     # @param element[:username] = acct
@@ -110,9 +110,9 @@ module NameChangeDetection
       all_toot_counts.each do |count|
         created_at = Date.parse(count.created_at.to_s)
         days_ago = Date.today - created_at
-        x = "#{days_ago.to_i} days ago"
+        x = "#{days_ago.to_i + 1} days ago"
         y = count.toot_num_per_day
-        formated_data << { x: x, y: y } unless days_ago.zero?
+        formated_data << { x: x, y: y }
       end
 
       format_data(formated_data)
