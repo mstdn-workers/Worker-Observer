@@ -90,7 +90,7 @@ module NameChangeDetection
           t.account_id = status[:id]
           # tootしたタイミングだから-1を行う
           t.toot_num_per_day = status[:statuses_count] - toot_count.all_toot_num - 1
-          t.all_toot_num = account.statuses_count
+          t.all_toot_num = status[:statuses_count]
         end
       end
 
