@@ -116,8 +116,6 @@ module NameChangeDetection
       end
 
       format_data(formated_data)
-
-      formated_data
     end
 
     # @param element[:id] = id
@@ -161,6 +159,8 @@ module NameChangeDetection
       empty_days_ago.each do |i|
         data << { x: "#{i} days ago", y: 0 }
       end
+
+      data.sort_by { |a| a[:x].to_i }
     end
   end
 end
