@@ -1,3 +1,4 @@
+# coding: utf-8
 require './database'
 require './simple_mastodon'
 
@@ -22,7 +23,7 @@ module NameChangeDetection
 
     # threadを追加するメソッド
     def register_thread
-      @detection_thread = create_thread(:name_change_detection, 8)
+      @detection_thread = create_thread(:name_change_detection, 120)
       @debug_thread = create_thread(:debug, 0)
     end
 

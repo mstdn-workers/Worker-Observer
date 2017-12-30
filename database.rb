@@ -79,7 +79,7 @@ module NameChangeDetection
 
       # toot_countがnilだった場合は単純に最初の登録
       if toot_count.nil? || toot_count.all_toot_num.nil?
-        Account.find(status[:id]).toot_counts.create do |t|
+        t.toot_counts.create do |t|
           t.account_id = status[:id]
           t.toot_num_per_day = 0
           t.all_toot_num = status[:statuses_count]
