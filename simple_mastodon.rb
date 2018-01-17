@@ -47,7 +47,7 @@ class SimpleMastodon
     content = status["content"]
 
     # idの更新
-    @ltl_since = status["id"] if @ltl_since < status["id"]
+    @ltl_since = status["id"].to_i if @ltl_since < status["id"].to_i
 
     # display_nameを取得する方法がattributesから直接引っ張ってくるしかなかった
     display = account["display_name"]

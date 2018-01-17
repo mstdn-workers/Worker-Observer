@@ -7,7 +7,7 @@ require 'date'
 
 # データベースへの接続
 config = YAML.safe_load(ERB.new(File.read("./config/database.yml")).result)
-ActiveRecord::Base.establish_connection(config["db"]["production"])
+ActiveRecord::Base.establish_connection(config["db"]["development"])
 
 Time.zone = 'Tokyo'
 Time.zone_default = Time.find_zone! 'Tokyo'
@@ -79,7 +79,7 @@ module NameChangeDetection
 
       # toot_countがnilだった場合は単純に最初の登録
       if toot_count.nil? || toot_count.all_toot_num.nil?
-        t.toot_counts.create do |t|
+        TootCount.create do |t|
           t.account_id = status[:id]
           t.toot_num_per_day = 0
           t.all_toot_num = status[:statuses_count]
