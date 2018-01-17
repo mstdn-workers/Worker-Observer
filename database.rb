@@ -7,7 +7,7 @@ require 'date'
 
 # データベースへの接続
 config = YAML.safe_load(ERB.new(File.read("./config/database.yml")).result)
-ActiveRecord::Base.establish_connection(config["db"]["development"])
+ActiveRecord::Base.establish_connection(config["db"]["production"])
 
 Time.zone = 'Tokyo'
 Time.zone_default = Time.find_zone! 'Tokyo'
